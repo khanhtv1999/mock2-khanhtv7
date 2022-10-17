@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { FaTimes } from "react-icons/fa";
+
 import TextField from "@material-ui/core/TextField";
+
 const ModalLogin = () => {
   return (
     <Wrapper>
@@ -18,7 +19,6 @@ const ModalLogin = () => {
                 inputProps={{ style: { fontSize: 16 } }}
                 InputLabelProps={{ style: { fontSize: 15 } }}
               />
-
               <TextField
                 style={{ width: "85%", marginTop: "2rem" }}
                 id="password"
@@ -28,6 +28,9 @@ const ModalLogin = () => {
                 variant="standard"
                 inputProps={{ style: { fontSize: 16 } }}
                 InputLabelProps={{ style: { fontSize: 15 } }}
+                InputProps={{
+                  endAdornment: <h5 className="forgot">Forgot?</h5>,
+                }}
               />
 
               <button className="button">Login</button>
@@ -129,7 +132,7 @@ const Wrapper = styled.section`
           border-radius: 50%;
           .close-modal-btn {
             position: absolute;
-            top: 1rem;
+            top: 0.9rem;
             right: 0.6rem;
             font-size: 2rem;
             cursor: pointer;
@@ -172,6 +175,14 @@ const Wrapper = styled.section`
           margin-top: 2rem;
           color: #646464;
           text-decoration: none;
+        }
+        .forgot {
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 14px;
+          margin-bottom: 0;
+          color: #383737;
+          cursor: pointer;
         }
       }
     }
