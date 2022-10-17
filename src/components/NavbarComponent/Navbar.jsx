@@ -19,6 +19,7 @@ const Navbar = () => {
             className="search__input"
             placeholder="Search items"
           />
+          //
           <button className="search__button">
             <svg
               className="search__icon"
