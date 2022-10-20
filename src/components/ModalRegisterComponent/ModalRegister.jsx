@@ -6,8 +6,12 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModalRegister } from "../../redux/modal/modalSlice";
 
 const ModalRegister = () => {
+  const dispatch = useDispatch();
+  const { isOpenModalRegister } = useSelector((store) => store.modal);
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
@@ -28,12 +32,19 @@ const ModalRegister = () => {
 
   return (
     <Wrapper>
-      <div className="modal-overlay show-modal">
+      <div
+        className={`${
+          isOpenModalRegister ? "modal-overlay show-modal" : "modal-overlay"
+        }`}
+      >
         <div className="modal-container">
           <div className="container-img">
             <h2>Shop App</h2>
             <div className="container-close-modal-btn">
               <svg
+                onClick={() => {
+                  dispatch(closeModalRegister());
+                }}
                 width="16"
                 height="12"
                 viewBox="0 0 16 12"
