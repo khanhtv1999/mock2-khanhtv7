@@ -1,11 +1,17 @@
 import styled from "styled-components";
-
 import TextField from "@material-ui/core/TextField";
-
+import { useSelector, useDispatch } from "react-redux";
+import { closeModalForgot } from "../../redux/modal/modalSlice";
 const ModalForgot = () => {
+  const { isOpenModalForgot } = useSelector((store) => store.modal);
+  const dispatch = useDispatch();
   return (
     <Wrapper>
-      <div className="modal-overlay show-modal">
+      <div
+        className={`${
+          isOpenModalForgot ? "modal-overlay show-modal" : "modal-overlay"
+        }`}
+      >
         <div className="modal-container">
           <div className="form-container">
             <form>
@@ -35,6 +41,7 @@ const ModalForgot = () => {
             <h2>Shop App</h2>
             <div className="container-close-modal-btn">
               <svg
+                onClick={() => dispatch(closeModalForgot())}
                 width="16"
                 height="12"
                 viewBox="0 0 16 12"
