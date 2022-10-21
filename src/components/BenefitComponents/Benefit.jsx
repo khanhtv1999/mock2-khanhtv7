@@ -6,7 +6,6 @@ const Benefit = () => {
         <h4>Bestsellers</h4>
         <button>Show more...</button>
       </div>
-      <div className="products"></div>
     </Wrapper>
   );
 };

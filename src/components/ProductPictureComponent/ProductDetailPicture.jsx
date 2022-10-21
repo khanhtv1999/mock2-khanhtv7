@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { getProductById } from "../../redux/product/productDetailSlice";
 import { Divider, Rating } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,23 +10,30 @@ import image3 from "../../assets/image/img3.jpg";
 import image4 from "../../assets/image/img4.jpg";
 import image5 from "../../assets/image/img5.jpg";
 import { useParams } from "react-router-dom";
+import QuantityComponent from "../QuantityComponent/Quantity";
+import { addToCart } from "../../redux/cart/cartSlice";
+import { getProductById } from "../../redux/product/productDetailSlice";
 
 const ProductDetailPicture = () => {
   const { product, isSuccess } = useSelector((store) => store.productDetail);
+  const { cart, quantity } = useSelector((store) => store.cart);
+  const [imgCurr, setImgCurr] = useState(image4);
+  const listImg = [image4, image2, image3, image4, image5];
   const dispatch = useDispatch();
-  const [imgCurr, setImgCurr] = useState(image2);
-  const listImg = [image2, image2, image3, image4, image5];
-
-  const [quantity, setQuantity] = useState(1);
-  if (quantity < 1) {
-    setQuantity(1);
-  }
-  if (quantity > product.countInStock * 1) {
-    setQuantity(product.countInStock * 1);
-  }
+  const { productId } = useParams();
+  useEffect(() => {
+    dispatch(getProductById({ id: productId }));
+  }, [productId]);
+  console.log("check cart", cart);
   const handleClickImg = (item) => {
     setImgCurr(item);
   };
+  const handleAddtoCart = () => {
+    const itemProduct = { ...product };
+    itemProduct.quantity = quantity;
+    dispatch(addToCart(itemProduct));
+  };
+
   return (
     <Wrapper>
       <div className="product">
@@ -37,10 +43,9 @@ const ProductDetailPicture = () => {
           </div>
 
           <div className="effectImg">
-            {listImg.map((item, index) => {
+            {listImg.map((item) => {
               return (
                 <img
-                  key={index}
                   src={item}
                   onClick={() => handleClickImg(item)}
                   alt={item}
@@ -74,7 +79,7 @@ const ProductDetailPicture = () => {
                   }}
                   orientation="vertical"
                 />
-                <label>{product.numOfReviews} Reviews</label>
+                <label>{`${product.numOfReviews} Reviews`}</label>
                 <Divider
                   sx={{
                     height: 15,
@@ -124,48 +129,11 @@ const ProductDetailPicture = () => {
               </div>
               <label className="titleQuantity">Quantity: </label>
               <div className="wrap">
-                <div className="quantity">
-                  <div
-                    onClick={() => {
-                      setQuantity((quantity) => quantity - 1);
-                    }}
-                  >
-                    <RemoveIcon
-                      sx={{
-                        position: "absolute",
-                        right: "20px",
-                        top: "10px",
-                        color: "#33A0FF",
-                        cursor: "pointer",
-                        ":hover": {
-                          color: "black",
-                        },
-                      }}
-                    />
-                  </div>
+                <QuantityComponent check={true} product={product} />
 
-                  <label>{quantity}</label>
-                  <div
-                    onClick={() => {
-                      setQuantity((quantity) => quantity + 1);
-                    }}
-                  >
-                    <AddIcon
-                      sx={{
-                        position: "absolute",
-                        left: "20px",
-                        top: "10px",
-                        color: "#33A0FF",
-                        cursor: "pointer",
-                        ":hover": {
-                          color: "black",
-                        },
-                      }}
-                    />
-                  </div>
-                </div>
                 <div className="add-card">
                   <LoadingButton
+                    onClick={handleAddtoCart}
                     className="btn"
                     sx={{
                       fontFamily: "Roboto",
@@ -210,7 +178,7 @@ const ProductDetailPicture = () => {
             </div>
           </>
         ) : (
-          <></>
+          <div>Loading...</div>
         )}
       </div>
     </Wrapper>

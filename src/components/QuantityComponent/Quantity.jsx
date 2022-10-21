@@ -1,26 +1,38 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useSelector } from "react-redux";
-const QuantityComponent = () => {
-  const { product, isSuccess } = useSelector((store) => store.productDetail);
-  const [quantity, setQuantity] = useState(1);
-  if (quantity < 1) {
-    setQuantity(1);
-  }
-  if (quantity > product.countInStock * 1) {
-    setQuantity(product.countInStock * 1);
-  }
+import { useDispatch, useSelector } from "react-redux";
+import { totalQuantity } from "../../redux/cart/cartSlice";
+import { useEffect } from "react";
+import { CompressOutlined } from "@mui/icons-material";
+const QuantityComponent = ({ quantityItem, check }) => {
+  const dispatch = useDispatch();
+  let initial;
+  if (check) {
+    initial = 1;
+  } else initial = quantityItem;
+  const [quantity, setQuantity] = useState(initial);
 
+  const handleDecrease = () => {
+    setQuantity((quantity) => {
+      let newState = quantity - 1;
+      if (newState < 0) {
+        newState = 0;
+      }
+      return newState;
+    });
+  };
+  const handleIncrease = () => {
+    setQuantity((quantity) => quantity + 1);
+  };
+  useEffect(() => {
+    dispatch(totalQuantity(quantity));
+  }, [quantity]);
   return (
     <Wrapper>
       <div className="quantity">
-        <div
-          onClick={() => {
-            setQuantity((quantity) => quantity + 1);
-          }}
-        >
+        <div onClick={handleIncrease}>
           <AddIcon
             sx={{
               position: "absolute",
@@ -36,11 +48,7 @@ const QuantityComponent = () => {
         </div>
 
         <label>{quantity}</label>
-        <div
-          onClick={() => {
-            setQuantity((quantity) => quantity - 1);
-          }}
-        >
+        <div onClick={handleDecrease}>
           <RemoveIcon
             sx={{
               position: "absolute",

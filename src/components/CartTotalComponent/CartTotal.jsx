@@ -26,12 +26,15 @@ const CartTotal = () => {
 };
 const Wrapper = styled.section`
   display: flex;
+  justify-content: center;
   align-items: flex-start;
-  gap: 10rem;
+  gap: 48rem;
+  margin-top: 4rem;
   .container-button {
     display: flex;
     align-items: center;
     gap: 2rem;
+
     .input-code {
       border: none;
       border-bottom: none;
@@ -51,6 +54,10 @@ const Wrapper = styled.section`
       border: none;
       width: 18rem;
       height: 5rem;
+      font-weight: 700;
+      font-size: 1.8rem;
+      line-height: 2.1rem;
+      color: #000000;
     }
   }
   .box {

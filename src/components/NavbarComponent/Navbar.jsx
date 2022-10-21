@@ -1,8 +1,27 @@
 import styled from "styled-components";
 import { GrCart } from "react-icons/gr";
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Image } from "antd";
+import Box from "@mui/material/Box";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import { Avatar, Dialog, Menu, MenuItem, Typography } from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { openModalLogin } from "../../redux/modal/modalSlice";
 const Navbar = () => {
+  const { user, isAuthenticated } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleClickAvatar = () => {};
+  const handleClose = () => {};
+  const handleClickLogout = () => {};
+  const handleClickUser = () => {
+    dispatch(openModalLogin());
+  };
   return (
     <Wrapper>
       <div className="navbar-top">
@@ -12,31 +31,116 @@ const Navbar = () => {
         <p>Track Order</p>
       </div>
       <div className="navbar-bottom">
-        <div className="logo">SHOPP APP</div>
-        <form action="#" className="search">
-          <input
-            type="text"
-            className="search__input"
-            placeholder="Search items"
-          />
-          //
-          <button className="search__button">
-            <svg
-              className="search__icon"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
+        <div className="mainBar">
+          <div
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            <h1 className="title">SHOP APP</h1>
+          </div>
+          <Box
+            component="form"
+            sx={{
+              p: "10px 16px",
+              display: "flex",
+              alignItems: "center",
+              width: 748,
+              height: 51,
+              backgroundColor: "#C4C4C4",
+              marginTop: "17px",
+              marginLeft: "20px",
+              borderRadius: "5px",
+            }}
+          >
+            <IconButton sx={{ p: "27px" }} aria-label="menu">
+              <MenuIcon sx={{ fontSize: "20px" }} />
+            </IconButton>
+
+            <Typography
+              sx={{
+                color: "#4B4B4B",
+                fontWeight: "700",
+                fontSize: "20px",
+              }}
             >
-              <path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path>
-            </svg>
-          </button>
-        </form>
-        <div>
-          <GrCart className="icon-cart" />
+              Categories
+            </Typography>
+
+            <Divider sx={{ height: 51, m: 0.5 }} orientation="vertical" />
+
+            <InputBase
+              sx={{ ml: 2, flex: 1, fontSize: "20px" }}
+              placeholder="Search Items"
+              inputProps={{ "aria-label": "search google maps" }}
+            />
+
+            <IconButton type="button" sx={{ p: "16px" }} aria-label="search">
+              <SearchIcon fontSize="large" />
+            </IconButton>
+          </Box>
+          <div className="icons">
+            <IconButton type="submit" sx={{ p: "16px" }} aria-label="cart">
+              <span className="cart-container">
+                <AddShoppingCartIcon
+                  sx={{
+                    color: "#323232",
+                    fontSize: "35px",
+                    marginBottom: "10px",
+                  }}
+                />
+                <span className="cart-value">1</span>
+              </span>
+            </IconButton>
+            <IconButton
+              type="submit"
+              sx={{ p: "16px", fontSize: "35px", marginBottom: "10px" }}
+              aria-label="user"
+            >
+              {!isAuthenticated ? (
+                <PersonOutlineIcon
+                  fontSize="large"
+                  sx={{ color: "#323232", fontSize: "40px" }}
+                  onClick={handleClickUser}
+                />
+              ) : (
+                <Avatar
+                  alt="Avatar"
+                  src={user.avatar}
+                  onClick={handleClickAvatar}
+                />
+              )}
+            </IconButton>
+          </div>
+          <div className="menuDialog">
+            <Dialog
+              // open={stateDialogUser}
+              BackdropProps={{
+                style: {
+                  height: "89.5%",
+                  marginTop: "10.5%",
+                },
+              }}
+              PaperProps={{
+                style: { borderRadius: 5 },
+                sx: {
+                  m: 0,
+                  bottom: 76,
+                  left: 420,
+                },
+              }}
+              onClose={handleClose}
+            >
+              <div className="menu">
+                <ul className="listItem">
+                  <li>My Profile</li>
+                  <li>Order History</li>
+                  <li onClick={handleClickLogout}>Logout</li>
+                </ul>
+              </div>
+            </Dialog>
+          </div>
         </div>
-        <div className="avatar"></div>
       </div>
     </Wrapper>
   );
@@ -62,54 +166,53 @@ const Wrapper = styled.section`
   }
   .navbar-bottom {
     background: #ffd333;
-    min-height: 15.904rem;
+    min-height: 11rem;
     min-width: 144rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    .logo {
-      font-size: 3.9rem;
-      font-weight: 700;
-      line-height: 4.5rem;
-      margin-right: 1rem;
-    }
-
-    .icon-cart {
-      width: 4rem;
-      height: 4.2rem;
-      margin-right: 3.3rem;
-    }
-    .avatar {
-      background-color: #fff;
-      width: 4.9rem;
-      height: 4.9rem;
-      border-radius: 50%;
-    }
-    .search {
+    .cart-container {
       display: flex;
-      flex: 0 0 40%;
-      margin-right: 4rem;
+      align-items: center;
+      position: relative;
+    }
+    .cart-value {
+      position: absolute;
+      top: -10px;
+      right: -16px;
+      background: #fffdfd;
+      width: 16px;
+      height: 16px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 10rem;
-      .search__input {
-        width: 74.8rem;
-        height: 5.035rem;
-        background: #c4c4c4;
-        padding: 0.7rem 2rem;
-        border: none;
-        margin-right: -5.25rem;
-        font-size: 2rem;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      padding: 12px;
+      color: #8c7211;
+    }
+    .mainBar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .title {
+        font-family: "Red Rose";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 45px;
+        margin-top: 2.75rem;
+        margin-right: 2rem;
       }
-      .search__button {
-        background: #c4c4c4;
-        border: none;
-        .search__icon {
-          border: none;
-          fill: #999;
-        }
+      .icons {
+        margin-top: 35px;
+        margin-left: 10px;
+      }
+      .menu {
+        width: 217px;
+        height: 193px;
+        background: #ffffff;
       }
     }
   }

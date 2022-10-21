@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { Image } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import QuantityComponent from "../QuantityComponent/Quantity";
-import CartTotal from "../CartTotalComponent/CartTotal";
+
 const CartTable = () => {
   const { product } = useSelector((store) => store.productDetail);
-  console.log("?", product);
+  const { cart } = useSelector((store) => store.cart);
+
   return (
     <Wrapper>
       <table>
@@ -20,26 +21,29 @@ const CartTable = () => {
         </thead>
 
         <tbody>
-          <tr>
-            <th className="col-img">
-              {" "}
-              <Image
-                style={{ borderRadius: "5px" }}
-                width={100}
-                height={100}
-                src={product.images[0].url}
-              />
-            </th>
-            <td>{product.name}</td>
-            <td>{product.price}</td>
-            <td>
-              <QuantityComponent />
-            </td>
-            <td>220 cm</td>
-          </tr>
+          {cart.map((item) => {
+            return (
+              <tr>
+                <th className="col-img">
+                  {" "}
+                  <Image
+                    style={{ borderRadius: "5px" }}
+                    width={100}
+                    height={100}
+                    src={item.images[0].url}
+                  />
+                </th>
+                <td>{item.name}</td>
+                <td>{`$${item.price}`}</td>
+                <td>
+                  <QuantityComponent quantityItem={item.quantity} />
+                </td>
+                <td>220 cm</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-      <CartTotal />
     </Wrapper>
   );
 };
@@ -64,6 +68,10 @@ const Wrapper = styled.section`
     /* border: 1px solid #343a40; */
     padding: 1rem 2rem;
     text-align: left;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #000000;
   }
 
   thead tr {

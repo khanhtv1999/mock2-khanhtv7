@@ -95,7 +95,6 @@ const FreeShipComponent = () => {
 };
 const Wrapper = styled.div`
   display: flex;
-
   gap: 1rem;
   .container_free_ship {
     display: flex;
@@ -105,28 +104,31 @@ const Wrapper = styled.div`
     border-radius: 5px;
     background: #f8f8f8;
     padding: 2rem 1rem;
-    min-width: 20.8vw;
-    max-width: 45vw;
+    /* min-width: 20.8vw;
+    max-width: 45vw; */
+    width: 31rem;
 
     .icon {
       width: 4rem;
       height: 4rem;
       margin-right: 2rem;
     }
-    .content_large {
-      font-family: "Arial";
-      font-style: normal;
-      font-weight: 700;
-      font-size: 24px;
-      line-height: 28px;
-    }
-    .content_small {
-      font-family: "Arial";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 16px;
-      color: #000000;
+    .container-content {
+      .content_large {
+        font-family: "Arial";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+      }
+      .content_small {
+        font-family: "Arial";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        color: #000000;
+      }
     }
   }
 `;

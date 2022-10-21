@@ -1,10 +1,10 @@
-import TextField from "@mui/material/TextField";
+import { Rate } from "antd";
 import Rating from "@mui/material/Rating";
 import { LoadingButton } from "@mui/lab";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { createReview } from "../../redux/product/productDetailSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,8 +12,9 @@ import { useSelector, useDispatch } from "react-redux";
 const Review = Yup.object().shape({
   content: Yup.string().min(1, "Please enter review"),
 });
-const MyReview = ({ id }) => {
-  console.log("check chil id", id);
+const MyReview = () => {
+  const { productId } = useParams();
+
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
   const [valueStar, setValueStar] = useState(5);
@@ -36,7 +37,7 @@ const MyReview = ({ id }) => {
         token: user.access_token,
         content: values.content,
         rating: valueStar,
-        productId: id,
+        productId: productId,
       })
     );
     resetForm();
@@ -46,10 +47,11 @@ const MyReview = ({ id }) => {
       <div className="writeReview">
         <h2>Write Review</h2>
         <div>
-          <Rating
+          <Rate
             name="simple-controlled"
-            value={5}
-            onChange={(event, newValue) => {
+            allowHalf
+            defaultValue={5}
+            onChange={(newValue) => {
               setValueStar(newValue);
             }}
           />
@@ -57,9 +59,8 @@ const MyReview = ({ id }) => {
 
         <form onSubmit={formik.handleSubmit}>
           <div>
-            <TextField
-              label="Write Your Review..."
-              variant="filled"
+            <input
+              placeholder="Write Your Review..."
               className="input-review"
               id="content"
               name="content"
@@ -100,7 +101,19 @@ const Wrapper = styled.section`
     font-weight: 700;
     font-size: 3rem;
     .input-review {
-      width: 80%;
+      width: 125rem;
+      height: 7.3rem;
+      background: #e6e6e6;
+      border: 1px solid #6a6a6a;
+      border-radius: 5px;
+      font-family: "Arial";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 18px;
+      color: #5a5a5a;
+      padding: 1rem;
+      padding-bottom: 3rem;
     }
   }
 `;
