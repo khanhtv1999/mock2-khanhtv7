@@ -22,3 +22,19 @@ export const fetchProductsThunk = async (thunkAPI) => {
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
 };
+export const getMyOdersThunk = async (currentPage, token, thunkAPI) => {
+  try {
+    const resp = await customFetch.get(
+      `/v1/orders/my-orders?size=4&page=${currentPage}`,
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return resp.data.data.orders;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.message);
+  }
+};

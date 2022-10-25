@@ -1,24 +1,28 @@
 import styled from "styled-components";
-import { GrCart } from "react-icons/gr";
 import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import { Avatar, Dialog, Menu, MenuItem, Typography } from "@mui/material";
+import { Avatar, Dialog, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { openModalLogin } from "../../redux/modal/modalSlice";
+
 const Navbar = () => {
-  const { user, isAuthenticated } = useSelector((store) => store.user);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useSelector((store) => store.user);
+  const { cart } = useSelector((store) => store.cart);
+  const dispatch = useDispatch();
   const handleClickAvatar = () => {};
   const handleClose = () => {};
   const handleClickLogout = () => {};
+  const handleClickCart = () => {
+    navigate("cart");
+  };
   const handleClickUser = () => {
     dispatch(openModalLogin());
   };
@@ -83,13 +87,14 @@ const Navbar = () => {
             <IconButton type="submit" sx={{ p: "16px" }} aria-label="cart">
               <span className="cart-container">
                 <AddShoppingCartIcon
+                  onClick={handleClickCart}
                   sx={{
                     color: "#323232",
                     fontSize: "35px",
                     marginBottom: "10px",
                   }}
                 />
-                <span className="cart-value">1</span>
+                <span className="cart-value">{cart.length}</span>
               </span>
             </IconButton>
             <IconButton
@@ -196,14 +201,15 @@ const Wrapper = styled.section`
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 6rem;
       .title {
-        font-family: "Red Rose";
         font-style: normal;
         font-weight: 700;
         font-size: 36px;
         line-height: 45px;
         margin-top: 2.75rem;
         margin-right: 2rem;
+        cursor: pointer;
       }
       .icons {
         margin-top: 35px;

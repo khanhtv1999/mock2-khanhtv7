@@ -1,15 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAllCategoriesThunk, fetchProductsThunk } from "./productThunk";
+import {
+  fetchAllCategoriesThunk,
+  fetchProductsThunk,
+  getMyOdersThunk,
+} from "./productThunk";
 export const fetchAllCategories = createAsyncThunk(
-  "user/fetchAllCategories",
+  "product/fetchAllCategories",
   async (payload, thunkAPI) => {
     return fetchAllCategoriesThunk("/v1/products/get-all-categories", thunkAPI);
   }
 );
 export const fetchProducts = createAsyncThunk(
-  "user/fetchProducts",
+  "product/fetchProducts",
   async (payload, thunkAPI) => {
     return fetchProductsThunk(thunkAPI);
+  }
+);
+export const getMyOders = createAsyncThunk(
+  "product/getMyOders",
+  async (payload, thunkAPI) => {
+    const { currentPage, token } = payload;
+    return getMyOdersThunk(currentPage, token, thunkAPI);
   }
 );
 const initialState = {
@@ -19,6 +30,7 @@ const initialState = {
   category: "",
   products: [],
   fetchProductSuccess: false,
+  myOders: [],
 };
 const productSlice = createSlice({
   name: "product",
@@ -49,6 +61,16 @@ const productSlice = createSlice({
       state.fetchProductSuccess = true;
     },
     [fetchProducts.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+    },
+    [getMyOders.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getMyOders.fulfilled]: (state, { payload }) => {
+      console.log("check", payload);
+      state.myOders = payload.result;
+    },
+    [getMyOders.rejected]: (state, { payload }) => {
       state.isLoading = false;
     },
   },

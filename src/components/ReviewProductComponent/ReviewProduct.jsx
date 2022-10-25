@@ -96,7 +96,7 @@ export default function ReviewProducts() {
             )}
 
             {reviews.total > 0 ? (
-              <Pagigations totalReview={reviews.total} />
+              <Pagigations totalReview={1} />
             ) : (
               <h2>The product has no reviews</h2>
             )}
