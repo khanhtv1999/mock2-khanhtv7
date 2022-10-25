@@ -1,12 +1,8 @@
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Image } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import QuantityComponent from "../QuantityComponent/Quantity";
-
-const CartTable = () => {
-  const { product } = useSelector((store) => store.productDetail);
+const CheckoutTable = () => {
   const { cart } = useSelector((store) => store.cart);
-
   return (
     <Wrapper>
       <table>
@@ -14,8 +10,6 @@ const CartTable = () => {
           <tr>
             <th>Image</th>
             <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
             <th>Total</th>
           </tr>
         </thead>
@@ -33,15 +27,8 @@ const CartTable = () => {
                     src={item.images[0].url}
                   />
                 </th>
-                <td>{item.name}</td>
-                <td>{`$${item.price}`}</td>
-                <td>
-                  <QuantityComponent
-                    itemProduct={item}
-                    quantityItem={item.quantity}
-                  />
-                </td>
-                <td>{`$${item.price * item.quantity}`}</td>
+                <td className="col-product">{item.name}</td>
+                <td className="coll-price">{`$${item.price}`}</td>
               </tr>
             );
           })}
@@ -50,16 +37,8 @@ const CartTable = () => {
     </Wrapper>
   );
 };
-const Wrapper = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 4rem;
+const Wrapper = styled.div`
   table {
-    /* border: 1px solid rgba(90, 90, 90, 0.41); */
-    border: #000000;
-    width: 80vw;
     font-size: 18px;
     border: 1px solid rgba(90, 90, 90, 0.41);
     border-collapse: collapse;
@@ -76,6 +55,9 @@ const Wrapper = styled.section`
     line-height: 28px;
     color: #000000;
   }
+  td {
+    background: #ebeaea;
+  }
 
   thead tr {
     background-color: #c4c4c4;
@@ -86,8 +68,16 @@ const Wrapper = styled.section`
   }
 
   thead th {
+    /* width: 100%/3; */
+  }
+  .col-img {
     width: 20%;
+    background: #ebeaea;
+  }
+  .col-product {
+    width: 75%;
+  }
+  .col-price {
   }
 `;
-
-export default CartTable;
+export default CheckoutTable;

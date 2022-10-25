@@ -4,6 +4,7 @@ const initialState = {
   isOpenModalLogin: false,
   isOpenModalRegister: false,
   isOpenModalForgot: false,
+  isOpenModalEditUser: false,
 };
 const modalSlice = createSlice({
   name: "modal",
@@ -27,6 +28,12 @@ const modalSlice = createSlice({
     closeModalForgot: (state) => {
       state.isOpenModalForgot = false;
     },
+    openModalEditUser: (state) => {
+      state.isOpenModalEditUser = true;
+    },
+    closeModalEditUser: (state) => {
+      state.isOpenModalEditUser = false;
+    },
   },
 });
 export const {
@@ -36,5 +43,7 @@ export const {
   closeModalRegister,
   openModalForgot,
   closeModalForgot,
+  openModalEditUser,
+  closeModalEditUser,
 } = modalSlice.actions;
 export default modalSlice.reducer;

@@ -3,6 +3,13 @@ const initialState = {
   cart: [],
   quantity: 0,
 };
+// export const addToCart = createAsyncThunk(
+//   "product/getProductById",
+//   async (payload, thunkAPI) => {
+//     const { id } = payload;
+//     return addToCartThunk("v1/cart/create-item", thunkAPI);
+//   }
+// );
 const cartSlice = createSlice({
   name: "cart",
   initialState: initialState,
@@ -21,7 +28,20 @@ const cartSlice = createSlice({
     totalQuantity: (state, { payload }) => {
       state.quantity = payload;
     },
+    incQuantity: (state, { payload }) => {
+      const index = state.cart.findIndex((i) => i.id === payload.id);
+      state.cart[index].quantity += 1;
+    },
+    decQuantity: (state, { payload }) => {
+      if (payload.quantity === 1) {
+        state.cart = state.cart.filter((item) => item.id !== payload.id);
+      } else {
+        const index = state.cart.findIndex((i) => i.id === payload.id);
+        state.cart[index].quantity -= 1;
+      }
+    },
   },
 });
-export const { addToCart, totalQuantity } = cartSlice.actions;
+export const { addToCart, totalQuantity, incQuantity, decQuantity } =
+  cartSlice.actions;
 export default cartSlice.reducer;

@@ -55,7 +55,7 @@ const ModalLogin = () => {
             <form onSubmit={formik.handleSubmit}>
               <h3>Welcome to Shop App</h3>
               <TextField
-                style={{ width: "85%", marginTop: "2rem" }}
+                style={{ width: "75%", marginTop: "2rem" }}
                 id="email"
                 name="email"
                 label="Email@gmail.com"
@@ -70,7 +70,7 @@ const ModalLogin = () => {
                 </Typography>
               )}
               <TextField
-                style={{ width: "85%", marginTop: "2rem" }}
+                style={{ width: "75%", marginTop: "2rem" }}
                 id="password"
                 name="password"
                 label="Password"
@@ -151,7 +151,6 @@ const Wrapper = styled.section`
     background: rgba(0, 0, 0, 0.5);
     display: grid;
     place-items: center;
-    transition: all 0.3s linear;
     visibility: hidden;
     z-index: -1;
     .modal-container {
@@ -213,10 +212,10 @@ const Wrapper = styled.section`
           font-size: 3rem;
           line-height: 2.7rem;
           margin-top: 6rem;
-          margin-left: 1rem;
+          margin-left: 3rem;
         }
         .button {
-          width: 85%;
+          width: 75%;
           height: 4.5rem;
           border: none;
           font-weight: 700;

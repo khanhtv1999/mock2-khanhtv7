@@ -1,6 +1,10 @@
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
+import { countSubtotal } from "../../utils/helpers";
+import { useDispatch, useSelector } from "react-redux";
 const CartTotal = () => {
+  const { cart } = useSelector((store) => store.cart);
+  const shipfee = 10;
   return (
     <Wrapper>
       <div className="container-button">
@@ -11,11 +15,11 @@ const CartTotal = () => {
         <h3 className="title-large">Cart Total</h3>
         <div className="title-detail">
           <h4 className="title-small">Subtotal</h4>
-          <h4 className="money">$120.00</h4>
+          <h4 className="money">{`$${countSubtotal(cart)}`}</h4>
           <h4 className="title-small">Shipping</h4>
-          <h4 className="money">$20.00</h4>
+          <h4 className="money">{`$${10}`}</h4>
           <h3 className="total">Total</h3>
-          <h4 className="money">$140.00</h4>
+          <h4 className="money">{`$${countSubtotal(cart) + shipfee}`}</h4>
         </div>
         <div className="container-input">
           <button className="button-apply">Proceed to checkout</button>

@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useDispatch, useSelector } from "react-redux";
-import { totalQuantity } from "../../redux/cart/cartSlice";
+import {
+  totalQuantity,
+  decQuantity,
+  incQuantity,
+} from "../../redux/cart/cartSlice";
 import { useEffect } from "react";
 import { CompressOutlined } from "@mui/icons-material";
-const QuantityComponent = ({ quantityItem, check }) => {
+const QuantityComponent = ({ quantityItem, check, itemProduct }) => {
   const dispatch = useDispatch();
   let initial;
   if (check) {
@@ -17,14 +21,20 @@ const QuantityComponent = ({ quantityItem, check }) => {
   const handleDecrease = () => {
     setQuantity((quantity) => {
       let newState = quantity - 1;
-      if (newState < 0) {
-        newState = 0;
+      if (newState < 1) {
+        newState = 1;
       }
       return newState;
     });
+    if (itemProduct) {
+      dispatch(decQuantity(itemProduct));
+    }
   };
   const handleIncrease = () => {
     setQuantity((quantity) => quantity + 1);
+    if (itemProduct) {
+      dispatch(incQuantity(itemProduct));
+    }
   };
   useEffect(() => {
     dispatch(totalQuantity(quantity));
